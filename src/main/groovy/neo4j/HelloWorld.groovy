@@ -42,7 +42,7 @@ class HelloWorld {
         graphDB = new GraphDatabaseFactory().newEmbeddedDatabase(Neo4j_DBPath)
 
         // Start transaction
-        Transaction transaction = graphDB.beginTx()
+        Transaction tx = graphDB.beginTx()
 
         try {
             // Create Node & set the properties
@@ -61,11 +61,11 @@ class HelloWorld {
             log.info second.getProperty("name").toString()
 
             // Complete successful transaction
-            transaction.success()
+            tx.success()
 
         } finally {
             // Finish transaction
-            transaction.finish()
+            tx.close()
         }
     }
 
@@ -73,7 +73,7 @@ class HelloWorld {
      * Clean the database
      */
     void removeData() {
-        Transaction transaction = graphDB.beginTx()
+        Transaction tx = graphDB.beginTx()
 
         try {
             // Delete
@@ -85,10 +85,10 @@ class HelloWorld {
             log.info "Nodes are removed"
 
             // Successful transaction
-            transaction.success()
+            tx.success()
         } finally {
             // Finish transaction
-            transaction.finish()
+            tx.close()
         }
     }
 
